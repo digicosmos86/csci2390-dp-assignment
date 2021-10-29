@@ -27,9 +27,11 @@ def expose(query_func):
   # This generates a single table with `rows` rows; your task is to use
   # `many_results` to compute each row's aggregation value.
   for r in range(0, rows):
-    # TODO: compute the actual value of row r, given all the noised values from
+    # compute the actual value of row r, given all the noised values from
     # making many queries.
-    value = "?"
+    value = sum([
+      result[r][cols - 1] for result in many_results
+    ]) / num_iterations
     
     # Append value and attached label to exposed result.
     labels = tuple(many_results[0][r][:-1])
@@ -51,17 +53,17 @@ if __name__ == "__main__":
   _pretty_print(headers, result)  
 
   # Expose the average age per programming level.
-  '''
+
   print("Exposing average:")
   headers, result = expose(lambda: avg(["programming"], "age", True))
   _pretty_print(headers, result)
   print("")
-  '''
+
   
   # Expose the count of people per programming level.
-  '''
+
   print("Exposing count:")
   headers, result = expose(lambda: count0(["programming"], True))
   _pretty_print(headers, result)
   print("")
-  '''
+
